@@ -1,7 +1,6 @@
 """Provenance Guard — AI content attribution backend.
-
-Milestone 3: Flask app + Groq detection signal (Signal 1) + audit log.
-Confidence scoring (M4) and transparency labels (M5) are stubbed for now.
+Implements submission classification, two detection signals, confidence scoring,
+transparency labels, appeals, rate limiting, and JSONL audit logging.
 """
 
 import json
