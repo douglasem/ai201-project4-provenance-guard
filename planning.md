@@ -199,15 +199,15 @@ because these styles often overlap.
 
 # Signal 2 — Stylometric Heuristics
 
-The second signal measures objective statistical properties of the text rather than meaning.
+The second signal measures objective statistical properties of the text rather than meaning. It computes three lightweight metrics in pure Python, maps each to a 0–1 "AI-likeness" sub-score, and combines them with fixed weights.
 
-The implementation will use several lightweight heuristics computed in pure Python.
+| Metric | What it measures | Direction | Weight |
+|--------|------------------|-----------|-------:|
+| Sentence-length variation (coefficient of variation) | Burstiness — how much sentence length varies | Low variation → AI-like | 0.55 |
+| Type-token ratio (windowed to first 100 words) | Vocabulary diversity | Low diversity → AI-like | 0.20 |
+| Structural punctuation density (`, ; : — ( ) "` per word) | Use of formal/subordinate punctuation | High density → AI-like | 0.25 |
 
-Examples include:
-
-- sentence length variance
-- vocabulary diversity (type-token ratio)
-- punctuation density
+Sentence-length variation carries the most weight because it is the strongest and most length-robust discriminator; the type-token ratio is windowed to the first 100 words to reduce length sensitivity and is weighted least because it is unreliable on short texts.
 
 ### Output
 
