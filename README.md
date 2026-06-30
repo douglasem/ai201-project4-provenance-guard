@@ -40,16 +40,16 @@ PORT=5001 python app.py
 ```bash
 curl -s -X POST http://localhost:5001/submit \
   -H "Content-Type: application/json" \
-  -d '{"text": "The sun dipped below the horizon...", "creator_id": "test-user-1"}'
+  -d '{"text": "ok so i finally tried that new ramen place downtown and honestly? underwhelming. the broth was fine but they put WAY too much sodium in it. probably wont go back unless someone drags me there", "creator_id": "creator-human"}'
 ```
 
 ```json
 {
-  "content_id": "188494d9-c83a-407d-a4c5-12f851c3d163",
-  "creator_id": "test-user-1",
+  "content_id": "251f7b88-73db-443b-9bea-5b1671367fda",
+  "creator_id": "creator-human",
   "attribution": "likely_human",
   "confidence": 0.1299,
-  "label": "This content appears likely to be written by a human...",
+  "label": "This content appears likely to be written by a human. No AI-generation label is being shown.",
   "signals": { "llm_score": 0.12, "heuristic_score": 0.1482 },
   "status": "classified"
 }
@@ -127,9 +127,9 @@ I tested the pipeline on inputs chosen to span the confidence range — clearly 
 |-------|------------:|------------------:|-------------:|--------|------------------|
 | AI-generated listicle ("Firstly… Secondly… In conclusion…") | 0.93 | 0.37 | **0.7355** | `likely_ai` | High |
 | Casual human review ("ok so i finally tried that ramen place…") | 0.12 | 0.15 | **0.1299** | `likely_human` | High |
-| Lightly edited AI ("I've been thinking about remote work…") | 0.42 | 0.47 | **0.4388** | `uncertain` | Low |
+| Lightly edited AI ("I've been thinking about remote work…") | 0.42 | 0.42 | **0.4206** | `uncertain` | Low |
 
-The first two are **high-confidence** cases far from the midpoint and produce noticeably different scores (0.74 vs 0.13). The third sits near the middle — a **low-confidence** case the system honestly refuses to commit on.
+The first two are **high-confidence** cases far from the midpoint and produce noticeably different scores (0.74 vs 0.13). The third sits near the middle — a **low-confidence** case the system honestly refuses to commit on. All three rows correspond to entries in `logs/audit.jsonl`.
 
 A notable validation result: formal human writing about monetary policy scored `llm=0.83, heuristic=0.41, confidence=0.682` — the LLM and the uniformity heuristic both leaned AI, but the wide `uncertain` band kept it from a false `likely_ai` verdict. This is the false-positive protection working as designed.
 
@@ -224,9 +224,9 @@ Every decision is written as one JSON line to `logs/audit.jsonl` (structured JSO
 ```json
 {
   "event_type": "submission",
-  "content_id": "c4ec5110-bb9f-41e0-bf3f-ad7e57d8a905",
-  "creator_id": "demo-ai",
-  "timestamp": "2026-06-30T22:08:26.366822+00:00",
+  "content_id": "4d5d1fba-74bd-48b4-892f-9b8b32ff88e1",
+  "creator_id": "creator-ai",
+  "timestamp": "2026-06-30T22:19:06.261448+00:00",
   "llm_score": 0.93,
   "heuristic_score": 0.3743,
   "confidence": 0.7355,
