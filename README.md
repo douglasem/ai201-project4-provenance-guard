@@ -21,6 +21,10 @@ echo 'GROQ_API_KEY=your_key_here' > .env
 python app.py
 ```
 
+## Video Walkthrough
+
+The video walkthrough can be accessed here: https://youtu.be/4XjTgmqCY8o
+
 The server listens on port **5000** by default. On macOS, port 5000 is held by the AirPlay Receiver (it returns HTTP 403), so run with an alternate port:
 
 ```bash
